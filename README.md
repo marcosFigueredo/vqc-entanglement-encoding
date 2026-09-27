@@ -3,7 +3,7 @@
 Code and raw results for the article
 
 > **Variational Quantum Circuits for Image Classification: The Roles of Entanglement, Data Encoding, and Training Data Regime**
-> M. B. Figueredo, L. S. Morais, T. B. Murari, A. Correia, R. L. S. Monteiro, A. N. Silva, V. Fonseca, E. P. Garrido, J. R. A. Fontoura, M. A. Moret.
+> M. B. Figueredo, L. S. Morais, T. B. Murari, A. R. C. B. da Silva, R. L. S. Monteiro, A. N. Silva, V. Fonseca, E. P. Garrido, J. R. A. Fontoura, M. A. Moret.
 > Submitted to *Quantum Machine Intelligence* (Springer Nature).
 
 The study characterizes how data encoding (angle vs. amplitude), entanglement topology (ring, all-to-all, none), circuit width and depth, and training-set size affect gate-based variational quantum classifiers (VQCs) on binary handwritten-digit tasks, and compares them with classical baselines (CNN, SVM-RBF, MLP).
@@ -32,6 +32,12 @@ pip install -r requirements.txt
 | `genalizacao.py --exp A` | `results_generality/` | Cross-task replication on 0 vs 1, 3 vs 5, 4 vs 9, N = 10 seeds (Table 11, Fig. 3) |
 | `control_experiments.py` | `results_controls/` | E1 per-parameter gradient variance, n = 2–10 (Table 8); E2 readout control (Table 10); E3 input-information control (Table 6) |
 | `figure1_z0_distributions.py` | `results_z0/` | Per-sample ⟨Z₀⟩ on the test set for six factorial configurations, pooled over 5 seeds (Fig. 1) |
+| `revision_fix_crosstask.py` | `results_generality/` | Reruns the cross-task runs that had been evaluated on the wrong test split (see note below) |
+| `revision_readout_ceiling.py` | `results_revision/readout_ceiling.csv` | Readout ceiling of circuits without entangling gates, from the Bloch vector of qubit 0 (Table 11, Fig. 3) |
+| `revision_multireadout.py` | `results_revision/multireadout_*.csv` | Single-qubit vs. multi-observable readout on the three tasks, seeds 0–4 |
+| `revision_stats.py` | `results_revision/S1–S5_*.csv` | TOST equivalence tests, Holm correction, seed-level comparisons, CI of the gradient-decay slope, classical baselines on the VQC features, VQC selection by training accuracy |
+| `revision_cost.py` | `results_revision/S6_compiled_cost.csv` | CNOT count and depth of the compiled circuits, including state preparation |
+| `revision_figures.py` | `results_revision/fig2_*.png`, `fig3_*.png` | Figures 2 and 3 |
 
 ### Reproducing
 
@@ -53,7 +59,8 @@ These scripts were written before the final analysis. Some labels in the raw out
 
 - **`n400` / `train_size = 400`** in `results/`: `load_digits` has only 360 images of digits 0 and 1, and 100 are held out for testing, so the largest training set actually contains **260** samples. The paper reports it as n = 260.
 - **`grad_var`** in `results/`, `results_fix/`, `results_fix_v2/`, and `results_generality/`: this is the standard deviation of the components of a single gradient vector (σ_g in the paper), not the variance over random initializations. The true per-parameter variance, Var_θ[∂L/∂θ_k], is computed only in `results_controls/E1_grad_variance.json`.
-- **`angular`** means angle encoding.
+- **`angular`** means angle encoding; **`none`** means no entangling gates in the variational layers (the amplitude-encoded state itself can be entangled).
+- **Cross-task runs on the wrong test split**: in the original cross-task data, all 0 vs 1 runs with ring topology and two 0 vs 1 angle/all-to-all runs had been produced by an earlier script version with a fixed 100-sample test set, while all other cross-task runs use the 25% stratified split of `genalizacao.py`. `revision_fix_crosstask.py` detects these runs (their accuracy is not a multiple of 1/test-size) and reruns all 62 with the 25% split; the original file is kept as `results_generality/generality_raw_original.csv`.
 - Some code comments and log messages are in Portuguese.
 
 ## License
