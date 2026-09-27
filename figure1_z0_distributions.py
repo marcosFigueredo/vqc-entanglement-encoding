@@ -38,11 +38,11 @@ TRAIN_SIZE, N_LAYERS = 100, 3
 # (label, encoding, topology, n_qubits)
 CONFIGS = [
     ("Amplitude + ring, 4 qubits",           "amplitude", "ring", 4),
-    ("Amplitude + no entanglement, 4 qubits", "amplitude", "none", 4),
+    ("Amplitude + no entangling gates, 4 qubits", "amplitude", "none", 4),
     ("Angle + ring, 2 qubits",               "angular",   "ring", 2),
     ("Angle + ring, 4 qubits",               "angular",   "ring", 4),
     ("Angle + ring, 6 qubits",               "angular",   "ring", 6),
-    ("Angle + no entanglement, 4 qubits",    "angular",   "none", 4),
+    ("Angle + no entangling gates, 4 qubits",    "angular",   "none", 4),
 ]
 
 
