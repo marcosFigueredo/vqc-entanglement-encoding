@@ -67,11 +67,14 @@ def s1():
     for a, b in [("ring", "none"), ("all_to_all", "none"), ("ring", "all_to_all")]:
         diff = d[a] - d[b]
         p_mw = stats.mannwhitneyu(d[a], d[b], alternative="two-sided").pvalue
+        p_w = stats.wilcoxon(d[a], d[b]).pvalue          # paired by seed (shared partitions)
         p_t, lo, hi = paired_tost(diff)
+        dz = diff.mean() / diff.std(ddof=1)             # paired standardized effect size
         rows.append(dict(comparison=f"{a} - {b}", mean_diff=diff.mean(), ci90_lo=lo, ci90_hi=hi,
-                         p_mannwhitney=p_mw, p_tost=p_t))
+                         p_mannwhitney=p_mw, p_wilcoxon=p_w, d_z=dz, p_tost=p_t))
     df = pd.DataFrame(rows)
     df["p_mannwhitney_holm"] = holm(df.p_mannwhitney)
+    df["p_wilcoxon_holm"] = holm(df.p_wilcoxon)
     df.to_csv(os.path.join(OUT, "S1_topology_tost.csv"), index=False)
     print("\nS1 topology comparison (30 seeds)\n", df.round(4).to_string(index=False))
 
@@ -204,6 +207,27 @@ def s5(same_feat):
     per_size = allm.groupby(["model", "train_size"]).final_acc.mean().unstack("train_size")
     per_size.to_csv(os.path.join(OUT, "S5_mean_by_size.csv"))
     print(per_size.round(3).to_string())
+
+
+# ── S7 ────────────────────────────────────────────────────────────────────
+def s7():
+    """No entangling gates vs ring under each readout: seed-level paired differences,
+    95% CI, and TOST with margin DELTA (5 seeds, each averaged over training sizes)."""
+    d = pd.concat([pd.read_csv(os.path.join(OUT, "multireadout_raw.csv")),
+                   pd.read_csv(os.path.join(OUT, "correlator_readout_raw.csv"))])
+    d = d[d.topology.isin(["none", "ring"])]
+    s = d.groupby(["dataset", "encoding", "readout", "topology", "seed"]).final_acc.mean().unstack("topology")
+    rows = []
+    for (ds, enc, ro), x in s.groupby(level=[0, 1, 2]):
+        diff = x["none"] - x["ring"]
+        h = stats.t.ppf(0.975, len(diff) - 1) * diff.std(ddof=1) / np.sqrt(len(diff))
+        p_t, lo90, hi90 = paired_tost(diff)
+        rows.append(dict(dataset=ds, encoding=enc, readout=ro, none=x["none"].mean(), ring=x["ring"].mean(),
+                         diff=diff.mean(), ci95_lo=diff.mean() - h, ci95_hi=diff.mean() + h,
+                         ci90_lo=lo90, ci90_hi=hi90, p_tost=p_t))
+    df = pd.DataFrame(rows)
+    df.to_csv(os.path.join(OUT, "S7_readout_none_vs_ring.csv"), index=False)
+    print("\nS7 no entangling gates - ring, by readout (5 seeds)\n", df.round(3).to_string(index=False))
 
 
 if __name__ == "__main__":

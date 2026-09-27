@@ -33,9 +33,10 @@ pip install -r requirements.txt
 | `control_experiments.py` | `results_controls/` | E1 per-parameter gradient variance, n = 2–10 (Table 8); E2 readout control (Table 10); E3 input-information control (Table 6) |
 | `figure1_z0_distributions.py` | `results_z0/` | Per-sample ⟨Z₀⟩ on the test set for six factorial configurations, pooled over 5 seeds (Fig. 1) |
 | `revision_fix_crosstask.py` | `results_generality/` | Reruns the cross-task runs that had been evaluated on the wrong test split (see note below) |
-| `revision_readout_ceiling.py` | `results_revision/readout_ceiling.csv` | Readout ceiling of circuits without entangling gates, from the Bloch vector of qubit 0 (Table 11, Fig. 3) |
-| `revision_multireadout.py` | `results_revision/multireadout_*.csv` | Single-qubit vs. multi-observable readout on the three tasks, seeds 0–4 |
-| `revision_stats.py` | `results_revision/S1–S5_*.csv` | TOST equivalence tests, Holm correction, seed-level comparisons, CI of the gradient-decay slope, classical baselines on the VQC features, VQC selection by training accuracy |
+| `revision_readout_ceiling.py` | `results_revision/readout_ceiling.csv` | Bloch-vector reference (direction chosen on the training set) and exact test-set bound (maximum over all measurement directions, computed exactly) for circuits without entangling gates (Table 11, Fig. 3) |
+| `revision_multireadout.py` | `results_revision/multireadout_*.csv` | Readout ⟨Z₀⟩ vs. the four ⟨Zᵢ⟩ on the three tasks, seeds 0–4 |
+| `revision_correlator_readout.py` | `results_revision/correlator_readout_*.csv` | Readouts with ⟨Zᵢ⟩ + ⟨ZᵢZⱼ⟩ and with the full computational-basis distribution, ring vs. no entangling gates (Table 12) |
+| `revision_stats.py` | `results_revision/S1–S7_*.csv` | Paired Wilcoxon and TOST equivalence tests, Holm correction, seed-level comparisons, CI of the gradient-decay slope, classical baselines on the VQC features, VQC selection by training accuracy, TOST by readout |
 | `revision_cost.py` | `results_revision/S6_compiled_cost.csv` | CNOT count and depth of the compiled circuits, including state preparation |
 | `revision_figures.py` | `results_revision/fig2_*.png`, `fig3_*.png` | Figures 2 and 3 |
 

@@ -68,7 +68,8 @@ def fig3():
     g = pd.read_csv("results_generality/generality_raw.csv")
     g = g.groupby(["dataset", "encoding", "topology", "seed"]).final_acc.mean().reset_index()
     stat = g.groupby(["dataset", "encoding", "topology"]).final_acc.agg(["mean", "std"])
-    ceil = pd.read_csv(os.path.join(OUT, "readout_ceiling.csv")).groupby(["dataset", "encoding"]).ceiling_test.mean()
+    rc = pd.read_csv(os.path.join(OUT, "readout_ceiling.csv")).groupby(["dataset", "encoding"])
+    ceil, bound = rc.ceiling_test.mean(), rc.test_bound.mean()
     tasks = ["mnist_0v1", "mnist_3v5", "mnist_4v9"]
     bars = [("amplitude", "ring", "#2F5F9E", "Amplitude + ring"),
             ("amplitude", "none", "#A9C1E0", "Amplitude + no entangling gates"),
@@ -83,7 +84,10 @@ def fig3():
         ax.bar(xs, m, w * 0.95, yerr=s, color=col, label=lab, capsize=3, error_kw=dict(lw=1))
         if topo == "none":
             ax.scatter(xs, [ceil.loc[(t, enc)] for t in tasks], marker="_", s=400, color="black", lw=2.2, zorder=4,
-                       label="Readout ceiling without entangling gates" if enc == "amplitude" else None)
+                       label="Bloch-vector reference (no entangling gates)" if enc == "amplitude" else None)
+            ax.scatter(xs, [bound.loc[(t, enc)] for t in tasks], marker="o", s=30, facecolor="white",
+                       edgecolor="black", lw=1.2, zorder=5,
+                       label="Exact test-set bound (no entangling gates)" if enc == "amplitude" else None)
     ax.axhline(0.5, color="0.4", ls="--", lw=1, label="Chance level")
     ax.set_xticks(range(len(tasks)), ["0 vs. 1", "3 vs. 5", "4 vs. 9"])
     ax.set(ylim=(0, 1.05), ylabel="Final test accuracy (mean ± SD over seeds)")
