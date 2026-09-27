@@ -31,8 +31,7 @@ pip install -r requirements.txt
 | `fix_h1_h3_v2.py` | `results_fix_v2/` | Topology comparison with N = 30 seeds and Mann–Whitney tests (Table 7) |
 | `genalizacao.py --exp A` | `results_generality/` | Cross-task replication on 0 vs 1, 3 vs 5, 4 vs 9, N = 10 seeds (Table 11, Fig. 3) |
 | `control_experiments.py` | `results_controls/` | E1 per-parameter gradient variance, n = 2–10 (Table 8); E2 readout control (Table 10); E3 input-information control (Table 6) |
-
-`results_confusion_tsne/` holds the per-sample ⟨Z₀⟩ outputs used for the output-distribution figure (Fig. 1).
+| `figure1_z0_distributions.py` | `results_z0/` | Per-sample ⟨Z₀⟩ on the test set for six factorial configurations, pooled over 5 seeds (Fig. 1) |
 
 ### Reproducing
 
@@ -43,9 +42,10 @@ python fixh.py --h1-only             # convergence curves
 python fix_h1_h3_v2.py --h1-only     # topology comparison, 30 seeds
 python genalizacao.py --exp A --out-dir results_generality --workers 4
 python control_experiments.py        # E1, E2, E3 (use --only E1|E2|E3 to run one)
+python figure1_z0_distributions.py   # Fig. 1 (about 5 min); --plots-only to redraw
 ```
 
-`control_experiments.py` imports the data loading and circuit construction from `run_all.py`, so both must stay in the same folder. Its runs that replicate factorial conditions reproduce the original final accuracies exactly.
+`control_experiments.py` and `figure1_z0_distributions.py` import the data loading and circuit construction from `run_all.py`, so all three must stay in the same folder. Their runs that replicate factorial conditions reproduce the original final accuracies exactly, and `figure1_z0_distributions.py` checks this for each of its 30 runs.
 
 ## Notes on naming in the raw files
 
