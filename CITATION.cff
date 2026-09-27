@@ -1,0 +1,54 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the article below."
+title: "VQC entanglement, encoding, and data regime: code and results"
+authors:
+  - family-names: Figueredo
+    given-names: Marcos Batista
+    email: mbfigueredo@uneb.br
+    affiliation: Universidade do Estado da Bahia
+  - family-names: Morais
+    given-names: Lizandra Santos
+  - family-names: Murari
+    given-names: Thiago Barros
+  - family-names: Correia
+    given-names: Anderson
+  - family-names: Monteiro
+    given-names: Roberto Luiz Souza
+  - family-names: Silva
+    given-names: Alexandre do Nascimento
+  - family-names: Fonseca
+    given-names: Vagner
+  - family-names: Garrido
+    given-names: Elaine Pereira
+  - family-names: Fontoura
+    given-names: José Roberto Araujo
+  - family-names: Moret
+    given-names: Marcelo Albano
+license: MIT
+preferred-citation:
+  type: article
+  title: "Variational Quantum Circuits for Image Classification: The Roles of Entanglement, Data Encoding, and Training Data Regime"
+  authors:
+    - family-names: Figueredo
+      given-names: Marcos Batista
+    - family-names: Morais
+      given-names: Lizandra Santos
+    - family-names: Murari
+      given-names: Thiago Barros
+    - family-names: Correia
+      given-names: Anderson
+    - family-names: Monteiro
+      given-names: Roberto Luiz Souza
+    - family-names: Silva
+      given-names: Alexandre do Nascimento
+    - family-names: Fonseca
+      given-names: Vagner
+    - family-names: Garrido
+      given-names: Elaine Pereira
+    - family-names: Fontoura
+      given-names: José Roberto Araujo
+    - family-names: Moret
+      given-names: Marcelo Albano
+  journal: "Quantum Machine Intelligence"
+  year: 2026
+  status: submitted

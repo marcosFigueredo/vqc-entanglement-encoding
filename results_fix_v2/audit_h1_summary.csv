@@ -1,0 +1,4 @@
+entanglement,n_seeds,final_acc_mean,final_acc_std,final_acc_median,best_acc_mean,best_acc_std,p_vs_none,d_vs_none,delta_vs_none,p_vs_all_to_all,d_vs_all_to_all,delta_vs_all_to_all
+ring,30,0.889333,0.038552,0.9,0.911333,0.029859,0.000245,1.1147,0.038,0.582998,-0.1691,-0.006333
+all_to_all,30,0.895667,0.036303,0.895,0.908667,0.036307,1.7e-05,1.3502,0.044333,,,
+none,30,0.851333,0.028952,0.84,0.885667,0.026793,,,,,,
